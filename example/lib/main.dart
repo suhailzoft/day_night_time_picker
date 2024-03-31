@@ -89,17 +89,20 @@ class _HomeState extends State<Home> {
                   "Inline Picker Style",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                // Render inline widget
-                showPicker(
-                  isInlinePicker: true,
-                  elevation: 1,
-                  value: _time,
-                  onChange: onTimeChanged,
-                  minuteInterval: TimePickerInterval.FIVE,
-                  iosStylePicker: iosStyle,
-                  minHour: 9,
-                  maxHour: 21,
-                  is24HrFormat: false,
+                SizedBox(
+                  width: 400,
+                  // Render inline widget
+                  child: showPicker(
+                    isInlinePicker: true,
+                    elevation: 1,
+                    value: _time,
+                    onChange: onTimeChanged,
+                    minuteInterval: TimePickerInterval.FIVE,
+                    iosStylePicker: iosStyle,
+                    minHour: 9,
+                    maxHour: 21,
+                    is24HrFormat: false,
+                  ),
                 ),
                 Text(
                   "IOS Style",

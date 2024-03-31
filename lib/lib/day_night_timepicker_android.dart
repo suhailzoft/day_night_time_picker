@@ -150,7 +150,7 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                                         SelectedInput.SECOND,
                                   ),
                                 ]
-                              : []
+                              : [],
                         ],
                       ),
                       Slider(

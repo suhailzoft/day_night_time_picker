@@ -22,6 +22,7 @@ class WrapperDialog extends StatelessWidget {
 
     return Dialog(
       insetPadding: timeState.widget.dialogInsetPadding,
+      backgroundColor: backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),
       ),
