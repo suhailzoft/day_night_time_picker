@@ -104,6 +104,8 @@ import 'package:flutter/material.dart';
 ///
 /// **wheelHeight** - Fixed height of the iOS style scrolling wheel. Defaults to `100`.
 ///
+/// **wheelMagnification** - Magnification of the iOS style scrolling wheel. Defaults to `1`.
+///
 /// **showSecondSelector** - Whether to use the second selector as well. Defaults to `false`.
 ///
 /// **settings** - Data that might be useful in constructing a [Route].

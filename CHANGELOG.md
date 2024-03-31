@@ -1,3 +1,12 @@
+## [1.3.1] - 31st March 2024.
+
+- Add an option to change `am` and `pm` label
+- Time is now responsive and stay at center as height grows
+- Add an option to adjust wheel magnification
+- Make wheel bounce when overscrolling like native iOS scroll physics
+- Add an option to customize text style for `hours`, `minutes` and `seconds` labels
+- Add an option to change background color of [Dialog]
+
 ## [1.3.0+1] - 15th August 2023.
 
 - added `settings` prop to pass [RouteSettings] to the [PageRouteBuilder]
