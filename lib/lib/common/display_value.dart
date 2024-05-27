@@ -56,55 +56,49 @@ class DisplayValue extends StatelessWidget {
     final unselectedColor = timeState.widget.unselectedColor ?? Colors.grey;
     return SizedBox(
       width: width,
-      child: Material(
-        color: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: onTap,
-                child: TextFormField(
-                  focusNode: focusNode,
-                  initialValue: controller == null ? value : null,
-                  controller: controller,
-                  style: _commonTimeStyles.copyWith(
-                    color: isSelected ? color : unselectedColor,
-                  ),
-                  enabled: isEditMode,
-                  onTap: onTap,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(0),
-                  ),
-                  inputFormatters: editable
-                      ? [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(2),
-                          MaxValueInputFormatter(maxValue!),
-                        ]
-                      : [],
-                ),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: onTap,
+            child: TextFormField(
+              focusNode: focusNode,
+              initialValue: controller == null ? value : null,
+              controller: controller,
+              style: _commonTimeStyles.copyWith(
+                color: isSelected ? color : unselectedColor,
               ),
-              IconButton(
-                onPressed: isSelected
-                    ? () {
-                        onTapEditMode!(!isEditMode);
-                        Future.delayed(const Duration(milliseconds: 50), () {
-                          if (!isEditMode) {
-                            FocusScope.of(context).requestFocus(focusNode);
-                          }
-                        });
-                      }
-                    : null,
-                icon: Icon(
-                  isEditMode ? Icons.check : Icons.edit,
-                  color: isSelected ? Colors.black : Colors.transparent,
-                ),
+              enabled: isEditMode,
+              onTap: onTap,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(0),
               ),
-            ],
+              inputFormatters: editable
+                  ? [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(2),
+                      MaxValueInputFormatter(maxValue!),
+                    ]
+                  : [],
+            ),
           ),
-        ),
+          IconButton(
+            onPressed: isSelected
+                ? () {
+                    onTapEditMode!(!isEditMode);
+                    Future.delayed(const Duration(milliseconds: 50), () {
+                      if (!isEditMode) {
+                        FocusScope.of(context).requestFocus(focusNode);
+                      }
+                    });
+                  }
+                : null,
+            icon: Icon(
+              isEditMode ? Icons.check : Icons.edit,
+              color: isSelected ? Colors.black : Colors.transparent,
+            ),
+          ),
+        ],
       ),
     );
   }
