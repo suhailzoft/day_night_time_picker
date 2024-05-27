@@ -300,6 +300,7 @@ dynamic showPicker({
   }
 
   return PageRouteBuilder(
+    fullscreenDialog: false,
     pageBuilder: (context, _, __) {
       if (iosStylePicker) {
         return Theme(
@@ -313,10 +314,15 @@ dynamic showPicker({
       } else {
         return Theme(
           data: themeData ?? Theme.of(context),
-          child: DayNightTimePickerAndroid(
-            sunrise: sunrise,
-            sunset: sunset,
-            duskSpanInMinutes: duskSpanInMinutes,
+          child: Center(
+            child: SizedBox(
+              width: width,
+              child: DayNightTimePickerAndroid(
+                sunrise: sunrise,
+                sunset: sunset,
+                duskSpanInMinutes: duskSpanInMinutes,
+              ),
+            ),
           ),
         );
       }

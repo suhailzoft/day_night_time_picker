@@ -28,8 +28,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Time _time = Time(hour: 11, minute: 30, second: 20);
-  bool iosStyle = true;
+  Time _time = Time(hour: 9, minute: 00, second: 00);
+  bool iosStyle = false;
 
   void onTimeChanged(Time newTime) {
     setState(() {
@@ -64,9 +64,10 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     Navigator.of(context).push(
                       showPicker(
-                        showSecondSelector: true,
+                        showSecondSelector: false,
                         context: context,
                         value: _time,
+                        width: 400,
                         onChange: onTimeChanged,
                         minuteInterval: TimePickerInterval.FIVE,
                         // Optional onChange to receive value as DateTime
@@ -99,8 +100,8 @@ class _HomeState extends State<Home> {
                     onChange: onTimeChanged,
                     minuteInterval: TimePickerInterval.FIVE,
                     iosStylePicker: iosStyle,
-                    minHour: 9,
-                    maxHour: 21,
+                    minHour: 00,
+                    maxHour: 23,
                     is24HrFormat: false,
                   ),
                 ),

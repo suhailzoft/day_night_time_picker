@@ -31,6 +31,12 @@ class DayNightTimePickerAndroid extends StatefulWidget {
 /// Picker state class
 class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
   late TimeModelBindingState timeState;
+  late TextEditingController hourController = TextEditingController();
+  late TextEditingController minuteController =
+      TextEditingController.fromValue(const TextEditingValue(text: '00'));
+  bool isEditMode = false;
+  final FocusNode hrFocusNode = FocusNode();
+  final FocusNode mnFocusNode = FocusNode();
 
   @override
   void didChangeDependencies() {
@@ -67,10 +73,11 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
     final hideButtons = timeState.widget.hideButtons;
 
     Orientation currentOrientation = MediaQuery.of(context).orientation;
-
     double value = timeState.time.hour.roundToDouble();
+    hourController.text = hourValue.toString().padLeft(2, '0');
     if (timeState.selected == SelectedInput.MINUTE) {
       value = timeState.time.minute.roundToDouble();
+      minuteController.text = timeState.time.minute.toString().padLeft(2, '0');
     } else if (timeState.selected == SelectedInput.SECOND) {
       value = timeState.time.second.roundToDouble();
     }
@@ -107,6 +114,12 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                             onTap: timeState.widget.disableHour!
                                 ? null
                                 : () {
+                                    if (timeState.selected ==
+                                        SelectedInput.MINUTE) {
+                                      setState(() {
+                                        isEditMode = false;
+                                      });
+                                    }
                                     timeState.onSelectedInputChange(
                                       SelectedInput.HOUR,
                                     );
@@ -114,14 +127,38 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                             value: hourValue.toString().padLeft(2, '0'),
                             isSelected:
                                 timeState.selected == SelectedInput.HOUR,
+                            controller: hourController,
+                            width: 80,
+                            editable: true,
+                            isEditMode: isEditMode,
+                            onTapEditMode: (val) {
+                              if (hourController.text.isNotEmpty) {
+                                if (!val) {
+                                  timeState.onTimeChange(
+                                      double.parse(hourController.text));
+                                }
+                                setState(() {
+                                  isEditMode = val;
+                                });
+                              }
+                            },
+                            maxValue: 23,
+                            focusNode: hrFocusNode,
                           ),
                           const DisplayValue(
                             value: ':',
+                            width: 30,
                           ),
                           DisplayValue(
                             onTap: timeState.widget.disableMinute!
                                 ? null
                                 : () {
+                                    if (timeState.selected ==
+                                        SelectedInput.HOUR) {
+                                      setState(() {
+                                        isEditMode = false;
+                                      });
+                                    }
                                     timeState.onSelectedInputChange(
                                       SelectedInput.MINUTE,
                                     );
@@ -131,11 +168,30 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                                 .padLeft(2, '0'),
                             isSelected:
                                 timeState.selected == SelectedInput.MINUTE,
+                            width: 80,
+                            editable: true,
+                            isEditMode: isEditMode,
+                            controller: minuteController,
+                            onTapEditMode: (val) {
+                              if (minuteController.text.isNotEmpty) {
+                                if (!val) {
+                                  timeState.onTimeChange(
+                                    double.parse(minuteController.text),
+                                  );
+                                }
+                                setState(() {
+                                  isEditMode = val;
+                                });
+                              }
+                            },
+                            maxValue: 59,
+                            focusNode: mnFocusNode,
                           ),
                           ...timeState.widget.showSecondSelector
                               ? [
                                   const DisplayValue(
                                     value: ':',
+                                    width: 30,
                                   ),
                                   DisplayValue(
                                     onTap: () {
@@ -148,6 +204,8 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                                         .padLeft(2, '0'),
                                     isSelected: timeState.selected ==
                                         SelectedInput.SECOND,
+                                    width: 80,
+                                    editable: true,
                                   ),
                                 ]
                               : [],

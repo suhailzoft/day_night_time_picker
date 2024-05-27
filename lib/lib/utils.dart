@@ -1,5 +1,6 @@
 import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Map a given value between a range
 double mapRange(
@@ -118,3 +119,26 @@ List<int?> generateHours(int divisions, min, max) {
 /// Convert TimeOfDay to double for comparison
 double timeOfDayToDouble(TimeOfDay myTime) =>
     myTime.hour + myTime.minute / 60.0;
+
+class MaxValueInputFormatter extends TextInputFormatter {
+  final int maxValue;
+
+  MaxValueInputFormatter(this.maxValue);
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    final int? newIntValue = int.tryParse(newValue.text);
+    if (newIntValue == null || newIntValue > maxValue) {
+      return oldValue;
+    }
+
+    return newValue;
+  }
+}
