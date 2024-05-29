@@ -47,7 +47,7 @@ class AmPm extends StatelessWidget {
                   timeState.widget.amLabel,
                   style: _style.copyWith(
                     color: isAm ? accentColor : unselectedColor,
-                    fontWeight: isAm ? FontWeight.bold : null,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -70,7 +70,7 @@ class AmPm extends StatelessWidget {
                   timeState.widget.pmLabel,
                   style: _style.copyWith(
                     color: !isAm ? accentColor : unselectedColor,
-                    fontWeight: !isAm ? FontWeight.bold : null,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

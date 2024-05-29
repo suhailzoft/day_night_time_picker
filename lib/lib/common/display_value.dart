@@ -17,29 +17,21 @@ class DisplayValue extends StatelessWidget {
   /// Whether the [value] is selected or not
   final bool isSelected;
 
-  final double width;
-  final bool editable;
   final bool isEditMode;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final Function(String)? onChanged;
-  final Function(bool)? onTapEditMode;
   final int? maxValue;
-  final FocusNode? focusNode;
 
   /// Constructor for the [Widget]
   const DisplayValue({
     Key? key,
     required this.value,
+    required this.controller,
     this.onTap,
     this.isSelected = false,
-    this.editable = false,
-    required this.width,
-    this.controller,
     this.onChanged,
     this.isEditMode = false,
-    this.onTapEditMode,
     this.maxValue,
-    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -47,57 +39,60 @@ class DisplayValue extends StatelessWidget {
     final timeState = TimeModelBinding.of(context);
     final _commonTimeStyles =
         Theme.of(context).textTheme.displayMedium!.copyWith(
-              fontSize: 62,
-              fontWeight: FontWeight.bold,
+              fontSize: 64,
+              fontWeight: FontWeight.w600,
+              height: 1.3,
             );
 
     final color =
         timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
     final unselectedColor = timeState.widget.unselectedColor ?? Colors.grey;
+    const unSelectedBorderColor = Color(0xFFC0C9CE);
     return SizedBox(
-      width: width,
-      child: Column(
-        children: [
-          InkWell(
-            onTap: onTap,
-            child: TextFormField(
-              focusNode: focusNode,
-              initialValue: controller == null ? value : null,
-              controller: controller,
-              style: _commonTimeStyles.copyWith(
-                color: isSelected ? color : unselectedColor,
-              ),
-              enabled: isEditMode,
-              onTap: onTap,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.all(0),
-              ),
-              inputFormatters: editable
-                  ? [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(2),
-                      MaxValueInputFormatter(maxValue!),
-                    ]
-                  : [],
+      width: 121,
+      child: TextFormField(
+        controller: controller,
+        cursorHeight: 55,
+        cursorColor: color,
+        style: _commonTimeStyles.copyWith(
+          color: isEditMode || isSelected ? color : Colors.black,
+        ),
+        onChanged: onChanged,
+        onTap: onTap,
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          isDense: false,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 10,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: unSelectedBorderColor,
+              width: 2.0,
             ),
           ),
-          IconButton(
-            onPressed: isSelected
-                ? () {
-                    onTapEditMode!(!isEditMode);
-                    Future.delayed(const Duration(milliseconds: 50), () {
-                      if (!isEditMode) {
-                        FocusScope.of(context).requestFocus(focusNode);
-                      }
-                    });
-                  }
-                : null,
-            icon: Icon(
-              isEditMode ? Icons.check : Icons.edit,
-              color: isSelected ? Colors.black : Colors.transparent,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: color,
+              width: 3.0,
             ),
           ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: unSelectedBorderColor,
+              width: 2.0,
+            ),
+          ),
+        ),
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(2),
+          MaxValueInputFormatter(maxValue!),
         ],
       ),
     );

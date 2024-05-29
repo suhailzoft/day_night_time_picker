@@ -26,9 +26,7 @@ class ActionButtons extends StatelessWidget {
         children: <Widget>[
           if (timeState.widget.showCancelButton)
             TextButton(
-              style: (timeState.widget.cancelButtonStyle ??
-                      timeState.widget.buttonStyle) ??
-                  defaultButtonStyle,
+              style: (timeState.widget.cancelButtonStyle) ?? defaultButtonStyle,
               onPressed: timeState.onCancel,
               child: Text(
                 timeState.widget.cancelText,
@@ -36,9 +34,9 @@ class ActionButtons extends StatelessWidget {
               ),
             ),
           SizedBox(width: timeState.widget.buttonsSpacing ?? 0),
-          TextButton(
+          ElevatedButton(
+            style: timeState.widget.buttonStyle,
             onPressed: timeState.onOk,
-            style: timeState.widget.buttonStyle ?? defaultButtonStyle,
             child: Text(
               timeState.widget.okText,
               style: timeState.widget.okStyle,

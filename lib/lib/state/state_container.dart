@@ -271,6 +271,9 @@ class TimeModelBindingState extends State<TimeModelBinding> {
   /// Whether the hour is currently being selected/changed
   SelectedInput selected = SelectedInput.HOUR;
 
+  /// Whether the hour is currently being edited
+  EditedInput edited = EditedInput.NONE;
+
   /// The last [DayPeriod] value
   DayPeriod lastPeriod = DayPeriod.am;
 
@@ -309,6 +312,7 @@ class TimeModelBindingState extends State<TimeModelBinding> {
 
   /// Change handler for picker
   onTimeChange(double value) {
+    edited = EditedInput.NONE;
     if (selected == SelectedInput.HOUR) {
       onHourChange(value);
     } else if (selected == SelectedInput.MINUTE) {
@@ -340,10 +344,25 @@ class TimeModelBindingState extends State<TimeModelBinding> {
   }
 
   /// Change handler for `hourIsSelected`
-  void onSelectedInputChange(SelectedInput newValue) {
-    setState(() {
-      selected = newValue;
-    });
+  void onSelectedInputChange(
+    SelectedInput newValue, {
+    bool isReloadStateNeeded = true,
+  }) {
+    selected = newValue;
+    if (isReloadStateNeeded) {
+      setState(() {});
+    }
+  }
+
+  /// Change handler for `hourIsEdited`
+  void onEditedInputChange(
+    EditedInput newValue, {
+    bool isReloadStateNeeded = true,
+  }) {
+    edited = newValue;
+    if (isReloadStateNeeded) {
+      setState(() {});
+    }
   }
 
   /// [onChange] handler. Return [TimeOfDay]

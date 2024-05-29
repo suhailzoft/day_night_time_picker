@@ -35,8 +35,6 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
   late TextEditingController minuteController =
       TextEditingController.fromValue(const TextEditingValue(text: '00'));
   bool isEditMode = false;
-  final FocusNode hrFocusNode = FocusNode();
-  final FocusNode mnFocusNode = FocusNode();
 
   @override
   void didChangeDependencies() {
@@ -104,8 +102,9 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       const AmPm(),
-                      const SizedBox(height: 8),
-                      const Spacer(),
+                      const SizedBox(
+                        height: 40,
+                      ),
                       Row(
                         textDirection: ltrMode,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,102 +113,108 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                             onTap: timeState.widget.disableHour!
                                 ? null
                                 : () {
-                                    if (timeState.selected ==
-                                        SelectedInput.MINUTE) {
-                                      setState(() {
-                                        isEditMode = false;
+                                    if (timeState.edited != EditedInput.HOUR) {
+                                      timeState.onEditedInputChange(
+                                        EditedInput.HOUR,
+                                      );
+                                      timeState.onSelectedInputChange(
+                                        SelectedInput.HOUR,
+                                        isReloadStateNeeded: false,
+                                      );
+                                      Future.delayed(
+                                              const Duration(milliseconds: 50))
+                                          .whenComplete(() {
+                                        hourController.selection =
+                                            TextSelection.collapsed(
+                                          offset: hourController.text.length,
+                                        );
                                       });
                                     }
-                                    timeState.onSelectedInputChange(
-                                      SelectedInput.HOUR,
-                                    );
                                   },
+                            onChanged: (val) {
+                              if (val.isNotEmpty) {
+                                if (val.length == 2) {
+                                  FocusScope.of(context).unfocus();
+                                  timeState.onTimeChange(
+                                    double.parse(hourController.text),
+                                  );
+                                  timeState.onSelectedInputChange(
+                                    SelectedInput.MINUTE,
+                                  );
+                                }
+                              }
+                            },
                             value: hourValue.toString().padLeft(2, '0'),
                             isSelected:
                                 timeState.selected == SelectedInput.HOUR,
                             controller: hourController,
-                            width: 80,
-                            editable: true,
-                            isEditMode: isEditMode,
-                            onTapEditMode: (val) {
-                              if (hourController.text.isNotEmpty) {
-                                if (!val) {
-                                  timeState.onTimeChange(
-                                      double.parse(hourController.text));
-                                }
-                                setState(() {
-                                  isEditMode = val;
-                                });
-                              }
-                            },
+                            isEditMode: timeState.edited == EditedInput.HOUR,
                             maxValue: 23,
-                            focusNode: hrFocusNode,
                           ),
-                          const DisplayValue(
-                            value: ':',
-                            width: 30,
-                          ),
+                          separator(),
                           DisplayValue(
                             onTap: timeState.widget.disableMinute!
                                 ? null
                                 : () {
-                                    if (timeState.selected ==
-                                        SelectedInput.HOUR) {
-                                      setState(() {
-                                        isEditMode = false;
+                                    if (timeState.edited !=
+                                        EditedInput.MINUTE) {
+                                      timeState.onEditedInputChange(
+                                        EditedInput.MINUTE,
+                                      );
+                                      timeState.onSelectedInputChange(
+                                        SelectedInput.MINUTE,
+                                        isReloadStateNeeded: false,
+                                      );
+                                      Future.delayed(
+                                              const Duration(milliseconds: 50))
+                                          .whenComplete(() {
+                                        minuteController.selection =
+                                            TextSelection.collapsed(
+                                          offset: minuteController.text.length,
+                                        );
                                       });
                                     }
-                                    timeState.onSelectedInputChange(
-                                      SelectedInput.MINUTE,
-                                    );
                                   },
+                            onChanged: (val) {
+                              if (val.isNotEmpty) {
+                                if (val.length == 2) {
+                                  FocusScope.of(context).unfocus();
+                                  timeState.onTimeChange(
+                                    double.parse(minuteController.text),
+                                  );
+                                }
+                              }
+                            },
                             value: timeState.time.minute
                                 .toString()
                                 .padLeft(2, '0'),
                             isSelected:
                                 timeState.selected == SelectedInput.MINUTE,
-                            width: 80,
-                            editable: true,
-                            isEditMode: isEditMode,
                             controller: minuteController,
-                            onTapEditMode: (val) {
-                              if (minuteController.text.isNotEmpty) {
-                                if (!val) {
-                                  timeState.onTimeChange(
-                                    double.parse(minuteController.text),
-                                  );
-                                }
-                                setState(() {
-                                  isEditMode = val;
-                                });
-                              }
-                            },
+                            isEditMode: timeState.edited == EditedInput.MINUTE,
                             maxValue: 59,
-                            focusNode: mnFocusNode,
                           ),
-                          ...timeState.widget.showSecondSelector
-                              ? [
-                                  const DisplayValue(
-                                    value: ':',
-                                    width: 30,
-                                  ),
-                                  DisplayValue(
-                                    onTap: () {
-                                      timeState.onSelectedInputChange(
-                                        SelectedInput.SECOND,
-                                      );
-                                    },
-                                    value: timeState.time.second
-                                        .toString()
-                                        .padLeft(2, '0'),
-                                    isSelected: timeState.selected ==
-                                        SelectedInput.SECOND,
-                                    width: 80,
-                                    editable: true,
-                                  ),
-                                ]
-                              : [],
+                          // ...timeState.widget.showSecondSelector
+                          //     ? [
+                          //         separator(),
+                          //         DisplayValue(
+                          //           onTap: () {
+                          //             timeState.onSelectedInputChange(
+                          //               SelectedInput.SECOND,
+                          //             );
+                          //           },
+                          //           value: timeState.time.second
+                          //               .toString()
+                          //               .padLeft(2, '0'),
+                          //           isSelected: timeState.selected ==
+                          //               SelectedInput.SECOND,
+                          //         ),
+                          //       ]
+                          //     : [],
                         ],
+                      ),
+                      const SizedBox(
+                        height: 40,
                       ),
                       Slider(
                         onChangeEnd: (_) => onChangedSlider(),
@@ -221,7 +226,9 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                         activeColor: color,
                         inactiveColor: color.withAlpha(55),
                       ),
-                      const Spacer(),
+                      const SizedBox(
+                        height: 40,
+                      ),
                       if (!hideButtons) const ActionButtons(),
                     ],
                   ),
@@ -250,5 +257,21 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
     if (timeState.widget.isOnValueChangeMode) {
       timeState.onOk();
     }
+  }
+
+  Widget separator() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: Text(
+        ':',
+        style: Theme.of(context).textTheme.displayMedium!.copyWith(
+              fontSize: 64,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+      ),
+    );
   }
 }

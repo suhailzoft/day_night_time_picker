@@ -70,9 +70,7 @@ class _HomeState extends State<Home> {
                         width: 400,
                         onChange: onTimeChanged,
                         minuteInterval: TimePickerInterval.FIVE,
-                        // Optional onChange to receive value as DateTime
                         onChangeDateTime: (DateTime dateTime) {
-                          // print(dateTime);
                           debugPrint("[debug datetime]:  $dateTime");
                         },
                       ),
@@ -91,7 +89,7 @@ class _HomeState extends State<Home> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(
-                  width: 400,
+                  width: 500,
                   // Render inline widget
                   child: showPicker(
                     isInlinePicker: true,
@@ -99,6 +97,8 @@ class _HomeState extends State<Home> {
                     value: _time,
                     onChange: onTimeChanged,
                     minuteInterval: TimePickerInterval.FIVE,
+                    accentColor: const Color(0xff004985),
+                    unselectedColor: const Color(0xFF5E6C6F),
                     iosStylePicker: iosStyle,
                     minHour: 00,
                     maxHour: 23,

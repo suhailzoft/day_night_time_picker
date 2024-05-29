@@ -13,3 +13,5 @@ const SUN_MOON_WIDTH = 100.0;
 enum TimePickerInterval { ONE, FIVE, TEN, FIFTEEN, THIRTY }
 
 enum SelectedInput { HOUR, MINUTE, SECOND }
+
+enum EditedInput { HOUR, MINUTE, NONE }
