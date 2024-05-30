@@ -304,7 +304,12 @@ class _DayNightTimePickerIosState extends State<DayNightTimePickerIos> {
                         ),
                       ),
                       const Spacer(),
-                      if (!timeState!.widget.hideButtons) const ActionButtons(),
+                      if (!timeState!.widget.hideButtons)
+                        ActionButtons(
+                          onOkPressed: () {
+                            timeState?.onOk();
+                          },
+                        ),
                     ],
                   ),
                 ),

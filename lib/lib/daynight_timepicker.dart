@@ -175,6 +175,9 @@ dynamic showPicker({
   duskSpanInMinutes = 120,
   RouteSettings? settings,
   Color? backgroundColor,
+  String validationText = 'Please enter valid hour and minute values!',
+  TextStyle validationTextStyle = const TextStyle(
+      fontSize: 16, color: Colors.red, fontWeight: FontWeight.w500),
 }) {
   if (minHour == double.infinity) {
     minHour = 0;
@@ -289,6 +292,10 @@ dynamic showPicker({
                     sunrise: sunrise,
                     sunset: sunset,
                     duskSpanInMinutes: duskSpanInMinutes,
+                    validationText: validationText,
+                    validationTextStyle: validationTextStyle,
+                    timeValue: value,
+                    is24HrFormat: is24HrFormat,
                   ),
                 );
               },
@@ -321,6 +328,10 @@ dynamic showPicker({
                 sunrise: sunrise,
                 sunset: sunset,
                 duskSpanInMinutes: duskSpanInMinutes,
+                validationText: validationText,
+                validationTextStyle: validationTextStyle,
+                timeValue: value,
+                is24HrFormat: is24HrFormat,
               ),
             ),
           ),

@@ -19,10 +19,9 @@ class WrapperContainer extends StatelessWidget {
     Color backgroundColor = timeState.widget.backgroundColor;
     return Expanded(
       child: Container(
-        height: height,
         color: backgroundColor,
         padding: timeState.widget.contentPadding,
-        child: child,
+        child: SingleChildScrollView (child: child),
       ),
     );
   }

@@ -277,6 +277,10 @@ class TimeModelBindingState extends State<TimeModelBinding> {
   /// The last [DayPeriod] value
   DayPeriod lastPeriod = DayPeriod.am;
 
+  bool isErrorMode = false;
+
+  bool didTapOkButton = false;
+
   @override
   void initState() {
     SelectedInput _selected = SelectedInput.HOUR;
@@ -401,6 +405,18 @@ class TimeModelBindingState extends State<TimeModelBinding> {
     ).setPeriod(other);
     final expectedHour = tempTime.hour;
     return widget.minHour! <= expectedHour && expectedHour <= widget.maxHour!;
+  }
+
+  void setIsErrorMode(status) {
+    setState(() {
+      isErrorMode = status;
+    });
+  }
+
+  void setDidTapButton(status) {
+    setState(() {
+      didTapOkButton= status;
+    });
   }
 
   @override

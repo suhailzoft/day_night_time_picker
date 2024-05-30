@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 /// Render the [Ok] and [Cancel] buttons
 class ActionButtons extends StatelessWidget {
-  const ActionButtons({Key? key}) : super(key: key);
+  final VoidCallback onOkPressed;
+  const ActionButtons({Key? key,required this.onOkPressed,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class ActionButtons extends StatelessWidget {
           SizedBox(width: timeState.widget.buttonsSpacing ?? 0),
           ElevatedButton(
             style: timeState.widget.buttonStyle,
-            onPressed: timeState.onOk,
+            onPressed: onOkPressed,
             child: Text(
               timeState.widget.okText,
               style: timeState.widget.okStyle,

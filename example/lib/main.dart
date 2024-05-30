@@ -67,7 +67,8 @@ class _HomeState extends State<Home> {
                         showSecondSelector: false,
                         context: context,
                         value: _time,
-                        width: 400,
+                        width: 500,
+                        height: 600,
                         onChange: onTimeChanged,
                         minuteInterval: TimePickerInterval.FIVE,
                         onChangeDateTime: (DateTime dateTime) {
@@ -95,6 +96,7 @@ class _HomeState extends State<Home> {
                     isInlinePicker: true,
                     elevation: 1,
                     value: _time,
+                    height: 600,
                     onChange: onTimeChanged,
                     minuteInterval: TimePickerInterval.FIVE,
                     accentColor: const Color(0xff004985),

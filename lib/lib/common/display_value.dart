@@ -8,25 +8,22 @@ import 'package:flutter/services.dart';
 
 /// Render the [Hour] or [Minute] value for `Android` picker
 class DisplayValue extends StatelessWidget {
-  /// The [value] to display
-  final String value;
-
   /// The [onTap] handler
   final Null Function()? onTap;
 
-  /// Whether the [value] is selected or not
   final bool isSelected;
 
   final bool isEditMode;
   final TextEditingController controller;
   final Function(String)? onChanged;
   final int? maxValue;
+  final FocusNode focusNode;
 
   /// Constructor for the [Widget]
   const DisplayValue({
     Key? key,
-    required this.value,
     required this.controller,
+    required this.focusNode,
     this.onTap,
     this.isSelected = false,
     this.onChanged,
@@ -43,7 +40,10 @@ class DisplayValue extends StatelessWidget {
               fontWeight: FontWeight.w600,
               height: 1.3,
             );
-
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: '1', style: _commonTimeStyles),
+      textDirection: TextDirection.ltr,
+    )..layout();
     final color =
         timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
     final unselectedColor = timeState.widget.unselectedColor ?? Colors.grey;
@@ -52,7 +52,8 @@ class DisplayValue extends StatelessWidget {
       width: 121,
       child: TextFormField(
         controller: controller,
-        cursorHeight: 55,
+        focusNode: focusNode,
+        cursorHeight: textPainter.height - 25,
         cursorColor: color,
         style: _commonTimeStyles.copyWith(
           color: isEditMode || isSelected ? color : Colors.black,
