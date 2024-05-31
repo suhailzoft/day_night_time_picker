@@ -40,61 +40,43 @@ class DisplayValue extends StatelessWidget {
               fontWeight: FontWeight.w600,
               height: 1.3,
             );
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: '1', style: _commonTimeStyles),
-      textDirection: TextDirection.ltr,
-    )..layout();
     final color =
         timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
-    final unselectedColor = timeState.widget.unselectedColor ?? Colors.grey;
     const unSelectedBorderColor = Color(0xFFC0C9CE);
     return SizedBox(
       width: 121,
-      child: TextFormField(
-        controller: controller,
-        focusNode: focusNode,
-        cursorHeight: textPainter.height - 25,
-        cursorColor: color,
-        style: _commonTimeStyles.copyWith(
-          color: isEditMode || isSelected ? color : Colors.black,
-        ),
-        onChanged: onChanged,
-        onTap: onTap,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          isDense: false,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: unSelectedBorderColor,
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              color: color,
-              width: 3.0,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: unSelectedBorderColor,
-              width: 2.0,
-            ),
+      height: 118,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: focusNode.hasFocus ? color : unSelectedBorderColor,
+            width: focusNode.hasFocus ? 3 : 2,
           ),
         ),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(2),
-          MaxValueInputFormatter(maxValue!),
-        ],
+        child: Center(
+          child: TextFormField(
+            controller: controller,
+            focusNode: focusNode,
+            cursorColor: color,
+            style: _commonTimeStyles.copyWith(
+              color: isEditMode || isSelected ? color : Colors.black,
+            ),
+            onChanged: onChanged,
+            onTap: onTap,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              isDense: true,
+            ),
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(2),
+              MaxValueInputFormatter(maxValue!),
+            ],
+          ),
+        ),
       ),
     );
   }

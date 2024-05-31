@@ -65,12 +65,10 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
     super.initState();
     initializeAndUpdateTime(isInit: true);
     hrFocusNode.addListener(() {
-      if (timeState.edited != EditedInput.HOUR) {
-        timeState.onSelectedInputChange(
-          SelectedInput.HOUR,
-          isReloadStateNeeded: false,
-        );
-      }
+      timeState.onSelectedInputChange(
+        SelectedInput.HOUR,
+        isReloadStateNeeded: false,
+      );
       if (hourController.text.length == 1) {
         double hour = double.parse('0${hourController.text}');
         timeState.onTimeChange(
@@ -84,12 +82,10 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
       }
     });
     mnFocusNode.addListener(() {
-      if (timeState.edited != EditedInput.MINUTE) {
-        timeState.onSelectedInputChange(
-          SelectedInput.MINUTE,
-          isReloadStateNeeded: false,
-        );
-      }
+      timeState.onSelectedInputChange(
+        SelectedInput.MINUTE,
+        isReloadStateNeeded: false,
+      );
       if (minuteController.text.length == 1) {
         timeState.onTimeChange(
           double.parse('0${minuteController.text}'),
@@ -157,101 +153,77 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                       const SizedBox(
                         height: 20,
                       ),
-                      SizedBox(
-                        height: 118,
-                        child: Row(
-                          textDirection: ltrMode,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            DisplayValue(
-                              onTap: timeState.widget.disableHour!
-                                  ? null
-                                  : () {
-                                      if (timeState.edited !=
-                                          EditedInput.HOUR) {
-                                        timeState.onEditedInputChange(
-                                          EditedInput.HOUR,
-                                        );
-                                        timeState.onSelectedInputChange(
-                                          SelectedInput.HOUR,
-                                          isReloadStateNeeded: false,
-                                        );
-                                        Future.delayed(
-                                          const Duration(
-                                            milliseconds: 50,
-                                          ),
-                                        ).whenComplete(() {
-                                          hourController.selection =
-                                              TextSelection.collapsed(
-                                            offset: hourController.text.length,
-                                          );
-                                        });
-                                      }
-                                    },
-                              onChanged: (val) {
-                                if (val.isNotEmpty && val.length == 2) {
-                                  FocusScope.of(context).unfocus();
-                                  timeState.onTimeChange(
-                                    double.parse(hourController.text),
-                                  );
-                                  timeState.onSelectedInputChange(
-                                    SelectedInput.MINUTE,
-                                  );
-                                  checkIsAnyEmptyValues();
-                                }
-                              },
-                              isSelected:
-                                  timeState.selected == SelectedInput.HOUR,
-                              controller: hourController,
-                              focusNode: hrFocusNode,
-                              isEditMode: timeState.edited == EditedInput.HOUR,
-                              maxValue: 23,
-                            ),
-                            separator(),
-                            DisplayValue(
-                              onTap: timeState.widget.disableMinute!
-                                  ? null
-                                  : () {
-                                      if (timeState.edited !=
-                                          EditedInput.MINUTE) {
-                                        timeState.onEditedInputChange(
-                                          EditedInput.MINUTE,
-                                        );
-                                        timeState.onSelectedInputChange(
-                                          SelectedInput.MINUTE,
-                                          isReloadStateNeeded: false,
-                                        );
-                                        Future.delayed(const Duration(
-                                                milliseconds: 50))
-                                            .whenComplete(() {
-                                          minuteController.selection =
-                                              TextSelection.collapsed(
-                                            offset:
-                                                minuteController.text.length,
-                                          );
-                                        });
-                                      }
-                                    },
-                              onChanged: (val) {
-                                if (val.isNotEmpty && val.length == 2) {
-                                  FocusScope.of(context).unfocus();
-                                  timeState.onTimeChange(
-                                    double.parse(minuteController.text),
-                                  );
-                                  checkIsAnyEmptyValues();
-                                }
-                              },
-                              isSelected:
-                                  timeState.selected == SelectedInput.MINUTE,
-                              controller: minuteController,
-                              focusNode: mnFocusNode,
-                              isEditMode:
-                                  timeState.edited == EditedInput.MINUTE,
-                              maxValue: 59,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        textDirection: ltrMode,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          DisplayValue(
+                            onTap: timeState.widget.disableHour!
+                                ? null
+                                : () {
+                                    if (timeState.edited != EditedInput.HOUR) {
+                                      timeState.onEditedInputChange(
+                                        EditedInput.HOUR,
+                                      );
+                                      timeState.onSelectedInputChange(
+                                        SelectedInput.HOUR,
+                                        isReloadStateNeeded: false,
+                                      );
+                                    }
+                                  },
+                            onChanged: (val) {
+                              if (val.isNotEmpty && val.length == 2) {
+                                FocusScope.of(context).unfocus();
+                                timeState.onTimeChange(
+                                  double.parse(hourController.text),
+                                );
+                                timeState.onSelectedInputChange(
+                                  SelectedInput.MINUTE,
+                                );
+                                checkIsAnyEmptyValues();
+                              }
+                            },
+                            isSelected:
+                                timeState.selected == SelectedInput.HOUR,
+                            controller: hourController,
+                            focusNode: hrFocusNode,
+                            isEditMode: timeState.edited == EditedInput.HOUR,
+                            maxValue: 23,
+                          ),
+                          separator(),
+                          DisplayValue(
+                            onTap: timeState.widget.disableMinute!
+                                ? null
+                                : () {
+                                    if (timeState.edited !=
+                                        EditedInput.MINUTE) {
+                                      timeState.onEditedInputChange(
+                                        EditedInput.MINUTE,
+                                      );
+                                      timeState.onSelectedInputChange(
+                                        SelectedInput.MINUTE,
+                                        isReloadStateNeeded: false,
+                                      );
+                                    }
+                                  },
+                            onChanged: (val) {
+                              if (val.isNotEmpty && val.length == 2) {
+                                FocusScope.of(context).unfocus();
+                                timeState.onTimeChange(
+                                  double.parse(minuteController.text),
+                                );
+                                checkIsAnyEmptyValues();
+                              }
+                            },
+                            isSelected:
+                                timeState.selected == SelectedInput.MINUTE,
+                            controller: minuteController,
+                            focusNode: mnFocusNode,
+                            isEditMode: timeState.edited == EditedInput.MINUTE,
+                            maxValue: 59,
+                          ),
+                        ],
                       ),
                       if (timeState.isErrorMode)
                         const SizedBox(
@@ -259,9 +231,15 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                         ),
                       if (timeState.isErrorMode)
                         Center(
-                          child: Text(
-                            widget.validationText,
-                            style: widget.validationTextStyle,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              widget.validationText,
+                              style: widget.validationTextStyle,
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.start,
+                            ),
                           ),
                         ),
                       const SizedBox(
@@ -326,6 +304,8 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
       if (timeState.selected == SelectedInput.HOUR) {
         if (!(timeState.widget.disableMinute ?? false)) {
           timeState.onSelectedInputChange(SelectedInput.MINUTE);
+          FocusScope.of(context).requestFocus(mnFocusNode);
+          moveCursorToEnd(SelectedInput.MINUTE);
         } else if (timeState.widget.showSecondSelector) {
           timeState.onSelectedInputChange(SelectedInput.SECOND);
         }
@@ -357,6 +337,20 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
       checkIsAnyEmptyValues();
       setState(() {});
     }
+  }
+
+  void moveCursorToEnd(SelectedInput selectedInput) {
+    Future.delayed(const Duration(milliseconds: 50)).whenComplete(() {
+      if (selectedInput == SelectedInput.HOUR) {
+        hourController.selection = TextSelection.collapsed(
+          offset: hourController.text.length,
+        );
+      } else {
+        minuteController.selection = TextSelection.collapsed(
+          offset: minuteController.text.length,
+        );
+      }
+    });
   }
 
   Widget separator() {
