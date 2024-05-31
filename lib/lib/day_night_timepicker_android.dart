@@ -43,6 +43,7 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
   late TextEditingController minuteController =
       TextEditingController.fromValue(const TextEditingValue(text: '00'));
   bool isEditMode = false;
+  late bool isAm = true;
   final FocusNode hrFocusNode = FocusNode();
   final FocusNode mnFocusNode = FocusNode();
 
@@ -64,9 +65,16 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
     super.initState();
     initializeAndUpdateTime(isInit: true);
     hrFocusNode.addListener(() {
+      if (timeState.edited != EditedInput.HOUR) {
+        timeState.onSelectedInputChange(
+          SelectedInput.HOUR,
+          isReloadStateNeeded: false,
+        );
+      }
       if (hourController.text.length == 1) {
+        double hour = double.parse('0${hourController.text}');
         timeState.onTimeChange(
-          double.parse('0${hourController.text}'),
+          isAm ? hour : hour + 12,
         );
         initializeAndUpdateTime();
       } else if (hourController.text.length == 2) {
@@ -76,6 +84,12 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
       }
     });
     mnFocusNode.addListener(() {
+      if (timeState.edited != EditedInput.MINUTE) {
+        timeState.onSelectedInputChange(
+          SelectedInput.MINUTE,
+          isReloadStateNeeded: false,
+        );
+      }
       if (minuteController.text.length == 1) {
         timeState.onTimeChange(
           double.parse('0${minuteController.text}'),
@@ -87,6 +101,7 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
 
   @override
   Widget build(BuildContext context) {
+    isAm = timeState.time.period == DayPeriod.am;
     double min =
         getMin(timeState.widget.minMinute, timeState.widget.minuteInterval);
     double max =

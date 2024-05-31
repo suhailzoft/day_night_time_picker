@@ -415,7 +415,7 @@ class TimeModelBindingState extends State<TimeModelBinding> {
 
   void setDidTapButton(status) {
     setState(() {
-      didTapOkButton= status;
+      didTapOkButton = status;
     });
   }
 
