@@ -175,8 +175,9 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                             onChanged: (val) {
                               if (val.isNotEmpty && val.length == 2) {
                                 FocusScope.of(context).unfocus();
+                                double hour = double.parse(hourController.text);
                                 timeState.onTimeChange(
-                                  double.parse(hourController.text),
+                                  isAm || hour > 12 ? hour : hour + 12,
                                 );
                                 timeState.onSelectedInputChange(
                                   SelectedInput.MINUTE,
